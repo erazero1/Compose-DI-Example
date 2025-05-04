@@ -73,13 +73,7 @@ implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android")
 ## 👷 Setup
 
 1. Clone the repo
-2. Add Internet permission in `AndroidManifest.xml`
-
-```xml
-<uses-permission android:name="android.permission.INTERNET"/>
-```
-
-3. Build and run
+2. Build and run
 
 ---
 
