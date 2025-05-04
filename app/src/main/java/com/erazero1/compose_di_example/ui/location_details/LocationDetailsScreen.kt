@@ -21,14 +21,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.erazero1.compose_di_example.domain.entity.Character
 import com.erazero1.compose_di_example.ui.character.StatusIndicator
+import com.erazero1.compose_di_example.ui.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun LocationDetailsScreen(
-    id: Int
+    id: Int,
+    navController: NavHostController
 ) {
     val viewModel = koinViewModel<LocationDetailsViewModel> { parametersOf(id) }
     val state by viewModel.uiState.collectAsState()
@@ -86,44 +90,56 @@ fun LocationDetailsScreen(
                             .fillMaxWidth()
                     ) {
                         state.residents.forEach { char ->
-                            Card(
-                                modifier = Modifier
-                                    .size(width = 240.dp, height = 340.dp)
-                                    .padding(end = 8.dp),
-                                shape = RoundedCornerShape(8.dp),
-                                colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0))
-                            ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.padding(8.dp)
-                                ) {
-                                    AsyncImage(
-                                        model = char.image,
-                                        contentDescription = char.name,
-                                        contentScale = ContentScale.Crop,
-                                        modifier = Modifier
-                                            .size(240.dp)
-                                            .clip(RoundedCornerShape(8.dp))
-                                            .background(Color.LightGray, RoundedCornerShape(50))
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(
-                                        text = char.name,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 24.sp
-                                    )
-                                    Row {
-                                        StatusIndicator(char.status, PaddingValues(top = 4.dp, end = 4.dp))
-                                        Text(
-                                            text = "${char.status} - ${char.species}",
-                                            fontSize = 20.sp
-                                        )
-                                    }
-                                }
+                            CharacterCard(char = char){
+                                navController
+                                    .navigate(Screen.CharacterDetailsScreen.withArgs(char.id.toString()))
                             }
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun CharacterCard(
+    char: Character,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .size(width = 240.dp, height = 340.dp)
+            .padding(end = 8.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0)),
+        onClick = onClick
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            AsyncImage(
+                model = char.image,
+                contentDescription = char.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(240.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color.LightGray, RoundedCornerShape(50))
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = char.name,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+            Row {
+                StatusIndicator(char.status, PaddingValues(top = 4.dp, end = 4.dp))
+                Text(
+                    text = "${char.status} - ${char.species}",
+                    fontSize = 20.sp
+                )
             }
         }
     }

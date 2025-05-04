@@ -72,8 +72,8 @@ fun NavGraph(
         ) { entry ->
             onTitleChange("Location Details")
             LocationDetailsScreen(
-                id = entry.arguments?.getInt("id") ?: -1
-            )
+                id = entry.arguments?.getInt("id") ?: -1,
+                navController = navController)
         }
     }
 
