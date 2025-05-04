@@ -8,6 +8,7 @@ android {
     namespace = "com.erazero1.compose_di_example"
     compileSdk = 35
 
+
     defaultConfig {
         applicationId = "com.erazero1.compose_di_example"
         minSdk = 24
@@ -35,11 +36,36 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
+    }
+    val composeVersion = "1.10.1"
+    composeOptions {
+        kotlinCompilerExtensionVersion = composeVersion
     }
 }
 
 dependencies {
+    val koin_version = "4.0.3"
+
+    // Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // Koin
+    implementation(project.dependencies.platform("io.insert-koin:koin-bom:$koin_version"))
+    implementation(libs.koin.core)
+    implementation (libs.koin.androidx.compose)
+    implementation (libs.koin.android)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    // Navigation Compose
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
