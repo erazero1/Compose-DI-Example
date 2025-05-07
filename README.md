@@ -33,7 +33,7 @@ A simple Android app to browse characters and locations from the [Rick and Morty
 | -------------------- | -------------------------- |
 | UI                   | Jetpack Compose            |
 | Navigation           | Jetpack Navigation Compose |
-| Dependency Injection | Koin                       |
+| Dependency Injection | Hilt                       |
 | Networking           | Retrofit + OkHttp          |
 | Image Loading        | Coil                       |
 | Async                | Kotlin Coroutines + Flows  |
@@ -49,11 +49,10 @@ A simple Android app to browse characters and locations from the [Rick and Morty
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-    // Koin
-    implementation(project.dependencies.platform("io.insert-koin:koin-bom:$koin_version"))
-    implementation(libs.koin.core)
-    implementation (libs.koin.androidx.compose)
-    implementation (libs.koin.android)
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.fragment)
+    ksp(libs.hilt.compiler)
 
     // Coil
     implementation(libs.coil.compose)
@@ -81,7 +80,7 @@ implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android")
 
 * Using Compose for responsive UI
 * Async data loading with Kotlin Flows
-* Clean architecture with Koin for DI
+* Clean architecture with Hilt for DI
 * Lazy loading and state handling
 
 ---
