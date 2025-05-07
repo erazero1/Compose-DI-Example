@@ -25,7 +25,9 @@ import androidx.navigation.compose.rememberNavController
 import com.erazero1.compose_di_example.ui.navigation.BottomNavigationBar
 import com.erazero1.compose_di_example.ui.navigation.NavGraph
 import com.erazero1.compose_di_example.ui.theme.ComposeDIExampleTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +52,7 @@ fun MainScreen() {
                 title = { Text(text = appBarTitle, fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
                     if (navController.previousBackStackEntry != null){
-                        IconButton(onClick = {navController.navigateUp()}) {
+                        IconButton(onClick = navController::navigateUp) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                         }
                     }
@@ -59,7 +61,8 @@ fun MainScreen() {
         },
         modifier = Modifier
             .fillMaxSize(),
-        bottomBar = { BottomNavigationBar(navController = navController) }
+        bottomBar = { BottomNavigationBar(navController = navController) },
+
     ) { innerPadding ->
         NavGraph(
             navController = navController,

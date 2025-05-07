@@ -3,13 +3,15 @@ package com.erazero1.compose_di_example.ui.location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erazero1.compose_di_example.domain.usecase.GetLocationsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-class LocationViewModel(
+import javax.inject.Inject
+@HiltViewModel
+class LocationViewModel @Inject constructor(
     private val getLocationsUseCase: GetLocationsUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(LocationState())

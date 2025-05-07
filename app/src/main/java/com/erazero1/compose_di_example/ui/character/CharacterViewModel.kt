@@ -3,21 +3,24 @@ package com.erazero1.compose_di_example.ui.character
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erazero1.compose_di_example.domain.usecase.GetCharactersUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-class CharacterViewModel(
+import javax.inject.Inject
+@HiltViewModel
+class CharacterViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharactersUseCase
 ) : ViewModel() {
+
+
     private val _uiState = MutableStateFlow(CharacterState())
     val uiState: StateFlow<CharacterState> = _uiState.asStateFlow()
 
     private fun loadPage(page: Int) {
         if (_uiState.value.isLoading) return
-
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
 

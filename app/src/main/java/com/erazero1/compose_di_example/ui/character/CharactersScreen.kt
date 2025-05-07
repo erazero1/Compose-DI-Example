@@ -34,16 +34,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.erazero1.compose_di_example.domain.entity.Character
 import com.erazero1.compose_di_example.ui.navigation.Screen
-import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun CharactersScreen(navController: NavController) {
-    val viewModel = koinViewModel<CharacterViewModel>()
+    val viewModel = hiltViewModel<CharacterViewModel>()
     val state by viewModel.uiState.collectAsState()
 
 

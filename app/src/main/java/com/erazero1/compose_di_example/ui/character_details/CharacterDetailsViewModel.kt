@@ -1,25 +1,29 @@
 package com.erazero1.compose_di_example.ui.character_details
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erazero1.compose_di_example.domain.entity.Character
 import com.erazero1.compose_di_example.domain.entity.Episode
 import com.erazero1.compose_di_example.domain.usecase.GetCharacterDetailsUseCase
 import com.erazero1.compose_di_example.domain.usecase.GetEpisodeByUrlUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
-class CharacterDetailsViewModel(
+import javax.inject.Inject
+@HiltViewModel
+class CharacterDetailsViewModel @Inject constructor(
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
     private val getEpisodeByUrlUseCase: GetEpisodeByUrlUseCase,
-    private val id: Int
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
     private val _uiState = MutableStateFlow(CharacterDetailsState())
     val uiState: StateFlow<CharacterDetailsState> = _uiState.asStateFlow()
+    val id: Int = savedStateHandle["id"]?: -1
 
 
     private fun getCharacterDetails() {

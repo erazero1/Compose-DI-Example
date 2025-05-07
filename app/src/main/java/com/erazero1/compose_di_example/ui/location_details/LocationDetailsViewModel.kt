@@ -1,23 +1,28 @@
 package com.erazero1.compose_di_example.ui.location_details
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erazero1.compose_di_example.domain.usecase.GetLocationDetailsUseCase
 import com.erazero1.compose_di_example.domain.usecase.GetResidentByUrlUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LocationDetailsViewModel(
+@HiltViewModel
+class LocationDetailsViewModel @Inject constructor(
     private val getLocationDetailsUseCase: GetLocationDetailsUseCase,
     private val getResidentByUrlUseCase: GetResidentByUrlUseCase,
-    private val id: Int,
+    savedStateHandle: SavedStateHandle
 ) :ViewModel() {
     private val _uiState = MutableStateFlow(LocationDetailsState())
     val uiState: StateFlow<LocationDetailsState> = _uiState.asStateFlow()
+    val id: Int = savedStateHandle["id"]?:-1
 
     init {
         loadLocationDetails()

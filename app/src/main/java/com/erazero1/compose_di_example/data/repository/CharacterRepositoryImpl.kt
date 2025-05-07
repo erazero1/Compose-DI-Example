@@ -8,12 +8,12 @@ import com.erazero1.compose_di_example.domain.repository.CharactersRepository
 
 class CharacterRepositoryImpl(
     private val apiService: RickAndMortyApi,
-    private val mapper: Mapper<CharacterDto, Character>
+    private val characterMapper: Mapper<CharacterDto, Character>
 ) : CharactersRepository {
 
     override suspend fun getCharacters(page: Int): Result<List<Character>> = runCatching {
         val response = apiService.getCharacters(page)
-        response.results.map { mapper.map(it) }
+        response.results.map { characterMapper.map(it) }
     }
 
 }

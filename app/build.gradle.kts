@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "2.1.20"
+    id("com.google.devtools.ksp") version "2.1.20-1.0.31"
+    id("com.google.dagger.hilt.android") version "2.56.1"
 }
 
 android {
@@ -46,7 +49,6 @@ android {
 }
 
 dependencies {
-    val koin_version = "4.0.3"
 
     // Retrofit
     implementation (libs.retrofit)
@@ -54,11 +56,11 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-    // Koin
-    implementation(project.dependencies.platform("io.insert-koin:koin-bom:$koin_version"))
-    implementation(libs.koin.core)
-    implementation (libs.koin.androidx.compose)
-    implementation (libs.koin.android)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.fragment)
+    ksp(libs.hilt.compiler)
 
     // Coil
     implementation(libs.coil.compose)

@@ -23,17 +23,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.erazero1.compose_di_example.ui.character.StatusIndicator
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 
 @Composable
 fun CharacterDetailsScreen(
     id: Int,
 ) {
-    val viewModel = koinViewModel<CharacterDetailsViewModel> { parametersOf(id) }
+    val viewModel = hiltViewModel<CharacterDetailsViewModel>()
     val state by viewModel.uiState.collectAsState()
 
 
